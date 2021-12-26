@@ -1,65 +1,82 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Card, Container, Form, Row} from "react-bootstrap";
-import {LOGIN_PAGE, REGISTRATION_PAGE} from "../utils/url";
-import {NavLink, useLocation} from "react-router-dom";
+import React, {useContext, useState} from 'react';
+import {Container, Form} from "react-bootstrap";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import {NavLink, useLocation, useHistory} from "react-router-dom";
+import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {login, registration} from "../http/userAPI";
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
 
-const Auth = () => {
-
-
+const Auth = observer(() => {
+    const {user} = useContext(Context)
     const location = useLocation()
-    const [isLogin, setIsLogin] = useState(false)
+    const history = useHistory()
+    const isLogin = location.pathname === LOGIN_ROUTE
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    useEffect(() => {
-        if (location.pathname === LOGIN_PAGE) {
-            setIsLogin(true)
-            console.log(isLogin)
+    const click = async () => {
+        try {
+            let data;
+            if (isLogin) {
+                data = await login(email, password);
+            } else {
+                data = await registration(email, password);
+            }
+            user.setUser(user)
+            user.setIsAuth(true)
+            history.push(SHOP_ROUTE)
+        } catch (e) {
+            alert(e.response.data.message)
         }
-    }, [location.pathname])
+
+    }
 
     return (
-        <div>
-            <Container
-                style={{height: '100vh', width: '50%', margin: '100px auto'}}>
-                <Card className="p-5">
-                    <h2 className="m-auto">
-                        {
-                            isLogin ? "Authorization" : "Registration"
+        <Container
+            className="d-flex justify-content-center align-items-center"
+            style={{height: window.innerHeight - 54}}
+        >
+            <Card style={{width: 600}} className="p-5">
+                <h2 className="m-auto">{isLogin ? 'Autorization' : "Registration"}</h2>
+                <Form className="d-flex flex-column">
+                    <Form.Control
+                        className="mt-3"
+                        placeholder="email..."
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                    <Form.Control
+                        className="mt-3"
+                        placeholder="password..."
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        type="password"
+                    />
+                    <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
+                        {isLogin ?
+                            <div>
+                                you have acount? <NavLink to={REGISTRATION_ROUTE}>Registration!</NavLink>
+                            </div>
+                            :
+                            <div>
+                                you have acount?<NavLink to={LOGIN_ROUTE}>Login!</NavLink>
+                            </div>
                         }
-                    </h2>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email"/>
-                        </Form.Group>
+                        <Button
+                            variant={"outline-success"}
+                            onClick={click}
+                        >
+                            {isLogin ? 'Login' : 'Registration'}
+                        </Button>
+                    </Row>
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password"/>
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Row>
-                                <Button variant="outline-dark" type="submit">
-                                    { isLogin? "Login" : "Registration"}
-                                </Button>
-                                {
-                                    isLogin ?
-                                        <div className="mt-4">
-                                            <NavLink to={REGISTRATION_PAGE}>to registration</NavLink>
-                                        </div>
-                                        :
-                                        <div className="mt-4">
-                                            <NavLink to={LOGIN_PAGE}>to login</NavLink>
-                                        </div>
-                                }
-
-                            </Row>
-                        </Form.Group>
-
-                    </Form>
-                </Card>
-            </Container>
-        </div>
+                </Form>
+            </Card>
+        </Container>
     );
-};
+});
 
 export default Auth;

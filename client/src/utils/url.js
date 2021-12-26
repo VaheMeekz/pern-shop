@@ -1,6 +1,0 @@
-export const ADMIN_PAGE = '/admin'
-export const LOGIN_PAGE = '/login'
-export const REGISTRATION_PAGE = '/registration'
-export const SHOP_PAGE = '/'
-export const ITEM_PAGE = '/item'
-export const BASKET_PAGE = '/basket'
