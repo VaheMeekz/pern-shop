@@ -3,6 +3,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import Drower from "../components/drower/Drower";
 import {useSelector} from "react-redux";
 import BrandsBar from "../components/brands/brandsBar";
+import ItemsList from "../components/itemsList/ItemsList";
 
 const Shop = () => {
 
@@ -15,6 +16,7 @@ const Shop = () => {
                 </Col>
                 <Col md={9}>
                     <BrandsBar/>
+                    <ItemsList/>
                 </Col>
                 </Row>
             </Container>
