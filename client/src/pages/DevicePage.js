@@ -36,7 +36,9 @@ const DevicePage = () => {
                         style={{width: 300, height: 300, fontSize: 32, border: '5px solid lightgray'}}
                     >
                         <h3>От: {device.price} руб.</h3>
-                        <Button variant={"outline-dark"} onClick={()=>history.push(BASKET_ROUTE)}>basket</Button>
+                        <Button variant={"outline-dark"}
+                                onClick={()=>history.push(BASKET_ROUTE)}
+                        >basket</Button>
                     </Card>
                 </Col>
             </Row>
