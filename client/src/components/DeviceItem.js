@@ -4,9 +4,19 @@ import Image from "react-bootstrap/Image";
 import star from '../assets/star.png'
 import {useHistory} from "react-router-dom"
 import {DEVICE_ROUTE} from "../utils/consts";
+import {useDispatch, useSelector} from "react-redux";
+import {getOneItem} from "../redux/actions/item.action";
+import Button from "react-bootstrap/Button";
 
 const DeviceItem = ({device}) => {
+    const check = useSelector(state => state?.itemReducer.checkId)
     const history = useHistory()
+    const dispatch = useDispatch()
+
+    const setId = (id) => {
+        dispatch(getOneItem(id))
+    }
+
     return (
         <Col md={3} className={"mt-3"} onClick={() => history.push(DEVICE_ROUTE + '/' + device.id)}>
             <Card style={{width: 150, cursor: 'pointer'}} border={"light"}>
@@ -19,6 +29,7 @@ const DeviceItem = ({device}) => {
                     </div>
                 </div>
                 <div>{device.name}</div>
+                <div><Button onClick={()=>setId(device.id)}>More</Button></div>
             </Card>
         </Col>
     );
