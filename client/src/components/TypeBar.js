@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 const TypeBar = observer(() => {
     const {device} = useContext(Context)
     return (
+        <div>
         <ListGroup>
             {device.types.map(type =>
                 <ListGroup.Item
@@ -19,6 +20,7 @@ const TypeBar = observer(() => {
                 </ListGroup.Item>
             )}
         </ListGroup>
+        </div>
     );
 });
 

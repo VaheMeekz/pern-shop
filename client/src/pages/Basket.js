@@ -4,7 +4,7 @@ import {Card, Row, Form, InputGroup, FormControl, Button} from "react-bootstrap"
 const Basket = () => {
     return (
         <div className="d-flex justify-content-center align-items-center">
-         uhpijm
+
             {/*<Row>*/}
             {/*    <div className="d-flex justify-content-center align-items-center m-5">*/}
             {/*        <h2>*/}

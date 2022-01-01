@@ -39,5 +39,5 @@ const CreateBrand = ({show, onHide}) => {
         </Modal>
     );
 };
-
+0
 export default CreateBrand;
